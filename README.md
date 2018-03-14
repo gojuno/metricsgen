@@ -13,6 +13,7 @@ go get github.com/gojuno/metricsgen
 
 Imagine you have the following interface:
 
+
 ```go
 type Example interface {
 	Do(a, b string) error
@@ -96,13 +97,13 @@ Decorator creates prometheus summary vector with two labels:
 ### Constructors
 Decorator provides two constructors to being used. 
 
-1. NewExampleMetrics creates summary vector internally using passed `metricName`.
+1. `NewExampleMetrics` creates summary vector internally using passed `metricName`.
 
 ```go
 ex := NewExampleMetrics(next, "example_metric_name", "instance_1")
 ```
 
-2. NewExampleMetricsWithSummary uses passed summary vector. It's useful when you want to use several instances of interface.
+2. `NewExampleMetricsWithSummary` uses passed summary vector. It's useful when you want to use several instances of interface.
 
 ```go
 sv := NewExampleMetricsSummary("example_metric_name")
