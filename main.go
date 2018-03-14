@@ -238,6 +238,16 @@ type {{$structName}} struct {
 	instance string
 }
 
+func New{{$structName}}Summary(metricName string) *prometheus.Summary {
+	return prometheus.NewSummaryVec(
+		prometheus.SummaryOpts{
+			Name: metricName,
+			Help: metricName,
+		}, 
+		[]string{"instance", "method"},
+	)
+}
+
 func New{{$structName}}WithSummary(next {{$interfaceName}}, instance string, sv *prometheus.SummaryVec) *{{$structName}} {
 	return &{{$structName}} {
 		next:     next,
@@ -247,13 +257,7 @@ func New{{$structName}}WithSummary(next {{$interfaceName}}, instance string, sv 
 }
 
 func New{{$structName}}(next {{$interfaceName}}, metricName, instance string) *{{$structName}} {
-	sv := prometheus.NewSummaryVec(
-			prometheus.SummaryOpts{
-				Name: metricName,
-				Help: metricName,
-			}, 
-			[]string{"instance", "method"},
-	)
+	sv := New{{$structName}}Summary(metricName)
 
 	prometheus.MustRegister(sv)
 	
