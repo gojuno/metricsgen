@@ -152,7 +152,7 @@ func generate(prog *loader.Program, opts generateOptions, methods map[string]*ty
 	gen.SetVar("interfaceName", opts.InterfaceName)
 	gen.SetVar("packagePath", opts.SourcePackage)
 	gen.SetHeader(fmt.Sprintf(`DO NOT EDIT!
-This code was generated automatically using github.com/gojuno/metricgen v%s
+This code was generated automatically using github.com/gojuno/metricsgen v%s
 The original interface %q can be found in %s`, version, opts.InterfaceName, opts.SourcePackage))
 	gen.SetDefaultParamsPrefix("p")
 	gen.SetDefaultResultsPrefix("r")
