@@ -1,6 +1,6 @@
 # Metricsgen
 
-[![GoDoc](https://godoc.org/github.com/gojuno/metricsgen?status.svg)](http://godoc.org/github.com/gojuno/metricsgen)
+[![GoDoc](https://godoc.org/github.com/gojuno/metricsgen?status.svg)](http://godoc.org/github.com/gojuno/metricsgen) [![Build Status](https://travis-ci.org/gojuno/metricsgen.svg?branch=master)](https://travis-ci.org/gojuno/metricsgen)
 
 Metricsgen generates interface implementation that measures execution time of all methods using prometheus SDK.
 
