@@ -28,6 +28,7 @@ metricsgen -i github.com/gojuno/metricsgen/tests.Example -o ./tests/
 ```
 
 The result will be:
+
 ```go
 package tests
 
