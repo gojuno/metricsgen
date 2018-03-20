@@ -238,7 +238,7 @@ type {{$structName}} struct {
 	instance string
 }
 
-func New{{$structName}}Summary(metricName string) *prometheus.Summary {
+func New{{$structName}}Summary(metricName string) *prometheus.SummaryVec {
 	return prometheus.NewSummaryVec(
 		prometheus.SummaryOpts{
 			Name: metricName,
