@@ -99,7 +99,10 @@ Decorator creates prometheus summary vector with two labels:
 ### Constructor
 
 ```go
+//create and register summary vector
 sv := NewExampleMetricsSummary("example_metric_name")
+
+//create two implementations of the Example interface decorated with methods' execution time metrics
 ex1 := NewExampleMetricsWithSummary(next, sv, "instance_1")
 ex2 := NewExampleMetricsWithSummary(next, sv, "instance_2")
 ```
