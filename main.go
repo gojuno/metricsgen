@@ -15,7 +15,7 @@ import (
 	"golang.org/x/tools/go/loader"
 )
 
-const version = "1.0"
+const version = "1.1"
 
 type (
 	programOptions struct {
