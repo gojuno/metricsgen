@@ -260,15 +260,6 @@ func New{{$structName}}WithSummary(next {{$interfaceName}}, instance string, sv 
 	}
 }
 
-func New{{$structName}}(next {{$interfaceName}}, metricName, instance string) *{{$structName}} {
-	sv := New{{$structName}}Summary(metricName)
-
-	prometheus.MustRegister(sv)
-
-
-	return New{{$structName}}WithSummary(next, instance, sv)
-}
-
 {{ range $methodName, $method := . }}
 	func (m *{{$structName}}) {{$methodName}}{{signature $method}} {
 		defer m.observe("{{$methodName}}", time.Now())

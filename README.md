@@ -49,15 +49,7 @@ type ExampleMetrics struct {
 	instance string
 }
 
-func NewExampleMetricsWithSummary(next Example, instance string, sv *prometheus.SummaryVec) *ExampleMetrics {
-	return &ExampleMetrics{
-		next:     next,
-		summary:  sv,
-		instance: instance,
-	}
-}
-
-func NewExampleMetrics(next Example, metricName, instance string) *ExampleMetrics {
+func NewExampleMetricsSummary(metricName string) *prometheus.SummaryVec {
 	sv := prometheus.NewSummaryVec(
 		prometheus.SummaryOpts{
 			Name: metricName,
@@ -68,7 +60,15 @@ func NewExampleMetrics(next Example, metricName, instance string) *ExampleMetric
 
 	prometheus.MustRegister(sv)
 
-	return NewExampleMetricsWithSummary(next, instance, sv)
+	return sv
+}
+
+func NewExampleMetricsWithSummary(next Example, instance string, sv *prometheus.SummaryVec) *ExampleMetrics {
+	return &ExampleMetrics{
+		next:     next,
+		summary:  sv,
+		instance: instance,
+	}
 }
 
 func (m *ExampleMetrics) Another(p string) {
@@ -96,16 +96,7 @@ Decorator creates prometheus summary vector with two labels:
 - `instance`. it's used to separate different instances of single interface to avoid metric name collisions. 
 - `method`. Interface method name.
 
-### Constructors
-Decorator provides two constructors to being used. 
-
-1. `NewExampleMetrics` creates summary vector internally using passed `metricName`.
-
-```go
-ex := NewExampleMetrics(next, "example_metric_name", "instance_1")
-```
-
-2. `NewExampleMetricsWithSummary` uses passed summary vector. It's useful when you want to use several instances of interface.
+### Constructor
 
 ```go
 sv := NewExampleMetricsSummary("example_metric_name")
