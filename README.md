@@ -34,7 +34,7 @@ package tests
 
 /*
 DO NOT EDIT!
-This code was generated automatically using github.com/gojuno/metricsgen v1.0
+This code was generated automatically using github.com/gojuno/metricsgen v1.2
 The original interface "Example" can be found in github.com/gojuno/metricsgen/tests
 */
 import (
@@ -44,9 +44,9 @@ import (
 )
 
 type ExampleMetrics struct {
-	next     Example
-	summary  *prometheus.SummaryVec
-	instance string
+	next    Example
+	summary *prometheus.SummaryVec
+	name    string
 }
 
 func NewExampleMetricsSummary(metricName string) *prometheus.SummaryVec {
@@ -55,7 +55,7 @@ func NewExampleMetricsSummary(metricName string) *prometheus.SummaryVec {
 			Name: metricName,
 			Help: metricName,
 		},
-		[]string{"instance", "method"},
+		[]string{"name", "method"},
 	)
 
 	prometheus.MustRegister(sv)
@@ -63,11 +63,11 @@ func NewExampleMetricsSummary(metricName string) *prometheus.SummaryVec {
 	return sv
 }
 
-func NewExampleMetricsWithSummary(next Example, instance string, sv *prometheus.SummaryVec) *ExampleMetrics {
+func NewExampleMetricsWithSummary(next Example, name string, sv *prometheus.SummaryVec) *ExampleMetrics {
 	return &ExampleMetrics{
-		next:     next,
-		summary:  sv,
-		instance: instance,
+		next:    next,
+		summary: sv,
+		name:    name,
 	}
 }
 
@@ -85,7 +85,7 @@ func (m *ExampleMetrics) Do(p string, p1 string) (r error) {
 
 func (m *ExampleMetrics) observe(method string, startedAt time.Time) {
 	duration := time.Since(startedAt)
-	m.summary.WithLabelValues(m.instance, method).Observe(duration.Seconds())
+	m.summary.WithLabelValues(m.name, method).Observe(duration.Seconds())
 }
 ```
 
