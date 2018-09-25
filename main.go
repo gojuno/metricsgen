@@ -233,9 +233,9 @@ func getInterfaceMethodsSignatures(t *types.Interface) map[string]*types.Signatu
 
 const template = `
 type {{$structName}} struct {
-	next     {{$interfaceName}}
-	summary  *prometheus.SummaryVec
-	name     string
+	next             {{$interfaceName}}
+	summary          *prometheus.SummaryVec
+	instanceName     string
 }
 
 func New{{$structName}}Summary(metricName string) *prometheus.SummaryVec {
@@ -244,7 +244,7 @@ func New{{$structName}}Summary(metricName string) *prometheus.SummaryVec {
 			Name: metricName,
 			Help: metricName,
 		},
-		[]string{"name", "method"},
+		[]string{"instance_name", "method"},
 	)
 
 	prometheus.MustRegister(sv)
@@ -252,11 +252,11 @@ func New{{$structName}}Summary(metricName string) *prometheus.SummaryVec {
 	return sv
 }
 
-func New{{$structName}}WithSummary(next {{$interfaceName}}, name string, sv *prometheus.SummaryVec) *{{$structName}} {
+func New{{$structName}}WithSummary(next {{$interfaceName}}, instanceName string, sv *prometheus.SummaryVec) *{{$structName}} {
 	return &{{$structName}} {
 		next:     next,
 		summary:  sv,
-		name:     name,
+		instanceName:     instanceName,
 	}
 }
 
@@ -270,7 +270,7 @@ func New{{$structName}}WithSummary(next {{$interfaceName}}, name string, sv *pro
 
 func (m *{{$structName}}) observe(method string, startedAt time.Time) {
 	duration := time.Since(startedAt)
-	m.summary.WithLabelValues(m.name, method).Observe(duration.Seconds())
+	m.summary.WithLabelValues(m.instanceName, method).Observe(duration.Seconds())
 }
 `
 
