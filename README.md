@@ -44,9 +44,9 @@ import (
 )
 
 type ExampleMetrics struct {
-	next    Example
-	summary *prometheus.SummaryVec
-	name    string
+	next         Example
+	summary      *prometheus.SummaryVec
+	instanceName string
 }
 
 func NewExampleMetricsSummary(metricName string) *prometheus.SummaryVec {
@@ -55,7 +55,7 @@ func NewExampleMetricsSummary(metricName string) *prometheus.SummaryVec {
 			Name: metricName,
 			Help: metricName,
 		},
-		[]string{"name", "method"},
+		[]string{"instance_name", "method"},
 	)
 
 	prometheus.MustRegister(sv)
@@ -63,11 +63,11 @@ func NewExampleMetricsSummary(metricName string) *prometheus.SummaryVec {
 	return sv
 }
 
-func NewExampleMetricsWithSummary(next Example, name string, sv *prometheus.SummaryVec) *ExampleMetrics {
+func NewExampleMetricsWithSummary(next Example, instanceName string, sv *prometheus.SummaryVec) *ExampleMetrics {
 	return &ExampleMetrics{
-		next:    next,
-		summary: sv,
-		name:    name,
+		next:         next,
+		summary:      sv,
+		instanceName: instanceName,
 	}
 }
 
@@ -85,7 +85,7 @@ func (m *ExampleMetrics) Do(p string, p1 string) (r error) {
 
 func (m *ExampleMetrics) observe(method string, startedAt time.Time) {
 	duration := time.Since(startedAt)
-	m.summary.WithLabelValues(m.name, method).Observe(duration.Seconds())
+	m.summary.WithLabelValues(m.instanceName, method).Observe(duration.Seconds())
 }
 ```
 
