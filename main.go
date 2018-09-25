@@ -15,7 +15,7 @@ import (
 	"golang.org/x/tools/go/loader"
 )
 
-const version = "1.1"
+const version = "1.2"
 
 type (
 	programOptions struct {
@@ -233,9 +233,9 @@ func getInterfaceMethodsSignatures(t *types.Interface) map[string]*types.Signatu
 
 const template = `
 type {{$structName}} struct {
-	next     {{$interfaceName}}
-	summary  *prometheus.SummaryVec
-	instance string
+	next             {{$interfaceName}}
+	summary          *prometheus.SummaryVec
+	instanceName     string
 }
 
 func New{{$structName}}Summary(metricName string) *prometheus.SummaryVec {
@@ -244,7 +244,7 @@ func New{{$structName}}Summary(metricName string) *prometheus.SummaryVec {
 			Name: metricName,
 			Help: metricName,
 		},
-		[]string{"instance", "method"},
+		[]string{"instance_name", "method"},
 	)
 
 	prometheus.MustRegister(sv)
@@ -252,11 +252,11 @@ func New{{$structName}}Summary(metricName string) *prometheus.SummaryVec {
 	return sv
 }
 
-func New{{$structName}}WithSummary(next {{$interfaceName}}, instance string, sv *prometheus.SummaryVec) *{{$structName}} {
+func New{{$structName}}WithSummary(next {{$interfaceName}}, instanceName string, sv *prometheus.SummaryVec) *{{$structName}} {
 	return &{{$structName}} {
 		next:     next,
 		summary:  sv,
-		instance: instance,
+		instanceName:     instanceName,
 	}
 }
 
@@ -270,7 +270,7 @@ func New{{$structName}}WithSummary(next {{$interfaceName}}, instance string, sv 
 
 func (m *{{$structName}}) observe(method string, startedAt time.Time) {
 	duration := time.Since(startedAt)
-	m.summary.WithLabelValues(m.instance, method).Observe(duration.Seconds())
+	m.summary.WithLabelValues(m.instanceName, method).Observe(duration.Seconds())
 }
 `
 
