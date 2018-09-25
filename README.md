@@ -93,7 +93,7 @@ func (m *ExampleMetrics) observe(method string, startedAt time.Time) {
 
 Decorator creates prometheus summary vector with two labels:
 
-- `name`. it's used to separate different instances of single interface to avoid metric name collisions. 
+- `instanceName`. it's used to separate different instances of single interface to avoid metric name collisions. 
 - `method`. Interface method name.
 
 ### Constructor
