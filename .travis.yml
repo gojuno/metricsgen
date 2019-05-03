@@ -1,11 +1,11 @@
 language: go
 
 go:
-  - 1.x
-  - master
+  - 1.11.x
+  - tip
 
-install:
-  - go get github.com/golang/lint/golint
+env:
+  - GO111MODULE=on
 
 script:
-  - cd $TRAVIS_BUILD_DIR && go build main.go
+  - cd $TRAVIS_BUILD_DIR && go run main.go -i github.com/gojuno/metricsgen/tests.Example -o ./tests/
